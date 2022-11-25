@@ -79,14 +79,17 @@ router.post('/submitAssignment', upload.array('myFiles'), requireStudent, async 
     const user = req.session["Student"]
     const title = req.body.title
     const files = req.files
+    const score = req.body.score
     const dbo = await getDB();
     const student = await dbo.collection("Students").findOne({ userName: user.name })
 
     await dbo.collection('Students').updateOne({ userName: user.name }, {
         $push: {
             'submitAssignment': {
+                
                 'title': title,
-                'file': files
+                'file': files,
+                'score':score
             }
 
         }
@@ -94,8 +97,10 @@ router.post('/submitAssignment', upload.array('myFiles'), requireStudent, async 
     await dbo.collection('HomeWork').updateOne({ title: title }, {
         $push: {
             'submitAss':{
+                'title':title,
                 'student': student.name,
-                'file': files
+                'file': files,
+                'score':score
             }
             
         }

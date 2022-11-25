@@ -42,7 +42,17 @@
         <div class="c-item body">
 			
             <h2>Scoring for students: {{student}}</h2>
-			
+            <form action="scoreStudent" method="post">
+                <input type="hidden" name="txtTitle" value="{{title}}">
+                <input type="hidden" name="txtStudent" value="{{student}}">
+                Score: <input type="number" name="score" min="0" max="100"> /100 <br><br>
+
+                <input id="save" type="submit" value="Add">
+                <a id="cancel" href="/teacher">Cancel</a>
+            </form>
+			{{!-- {{#each sub.submitAss}}
+            <a style="color: blue;" href="/downloadzipp?filename={{filename}}">{{filename}}</a> <br>
+            {{/each}} --}}
        
         </div>
 		

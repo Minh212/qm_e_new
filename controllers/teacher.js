@@ -164,17 +164,36 @@ router.get('/mark', requireTeacher, async (req, res) => {
     const title = req.query.title
     const dbo = await getDB()
     const mark = await dbo.collection('HomeWork').findOne({ title: title })
-    console.log(mark);
+
     res.render('mark', { mark: mark })
 })
 
 router.get('/scoreStudent', requireTeacher, async (req, res) => {
     const student = req.query.student
+    const className = req.query.className
+    const title = req.query.title
     const dbo = await getDB()
-
-    console.log(student);
-    res.render('scoreStudent', { student:student })
+    const sub = await dbo.collection('HomeWork').findOne({ className: className })
+    res.render('scoreStudent', { student:student, sub:sub, title: title })
 })
+
+router.post('/scoreStudent', requireTeacher, async (req, res) => {
+    const title = req.body.txtTitle
+    const score = req.body.score
+    const student = req.body.txtStudent
+    console.log(student);
+    const dbo = await getDB()
+    const a = await dbo.collection("HomeWork").findOne({title:title, 'submitAss.student':student});
+    console.log(a);
+    await dbo.collection("HomeWork").updateOne({title:title, student:student},{
+        $set: {
+            score:score
+        }
+    })
+
+    res.redirect('/teacher/mark?title='+title)
+})
+
 
 router.get('/members', requireTeacher, async (req, res) => {
     const className = req.query.className;
@@ -189,7 +208,7 @@ router.get('/members', requireTeacher, async (req, res) => {
         }
     }
     var student = mem.students;
-    console.log(student);
+
     // for (let i = 0; i < student.length; i++) {
     //     const element = student[i];
     //     console.log(element);

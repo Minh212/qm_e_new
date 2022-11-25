@@ -44,12 +44,15 @@
             <table>
                 <tr>
                     <th>Full Name</th>
+                    <th>Submitted submissions</th>
+                    <th>Score</th>
                     <th>Controller</th>
                 </tr>
                 {{#each mark.submitAss}}
                 <tr>
                     <td>{{student}}</td>
-                    
+                    <td><a style="color: blue;" href="/downloadzipp?filename={{file}}">{{file.[0].filename}}</a></td>
+                    <td></td>
                     <td>
                         <center>
                             <a id="save" href="/teacher/scoreStudent?student={{student}}">Score</a>
